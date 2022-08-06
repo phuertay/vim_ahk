@@ -270,7 +270,7 @@ class VimAhk{
     if(not this.Enabled){
       Return False
     }else if(this.Conf["VimAppList"]["val"] == "Allow List"){
-      Return WinActive("ahk_group " . this.GroupName)
+      Return this.GetFocusedControlClassNN() == "_WwG1" || WinActive("ahk_group " . this.GroupName) // Outlook compose
     }else if(this.Conf["VimAppList"]["val"] == "Deny List"){
       Return !WinActive("ahk_group " . this.GroupName)
     }
@@ -295,5 +295,11 @@ class VimAhk{
     clipboard := tempClip
     BlockInput, off
     Return ret
+  }
+  
+  GetFocusedControlClassNN(){
+    GuiWindowHwnd := WinExist("A")
+    ControlGetFocus, FocusedControl, ahk_id %GuiWindowHwnd%
+    Return FocusedControl
   }
 }
